@@ -15,7 +15,7 @@ Step 4: To try out cursor on your own projects, go to the file menu (top left) a
 '''
 
 
-def add(a: int, b: int) -> int:
+def add(a: int, b: int, c: int) -> int:
     """
     Returns the sum of two integers.
 
@@ -41,5 +41,5 @@ def subtract(a: int, b: int) -> int:
     """
     return a - b
 
-print(add(5, 2.0))
-print(subtract(5, 2.0))
+print(add(5, 2, 3))
+print(subtract(5, 2))
