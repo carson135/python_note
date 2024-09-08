@@ -17,7 +17,7 @@ Step 4: To try out cursor on your own projects, go to the file menu (top left) a
 
 def add(a: int, b: int) -> int:
     """
-    Returns the sum of two integers. a
+    Returns the sum of two integers. abc
 
     Args:
         a (int): The first integer.
