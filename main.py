@@ -1,45 +1,48 @@
-#####################
-# Welcome to Cursor #
-#####################
+# from dog import MyClass
 
-'''
-Step 1: Try generating with Cmd+K or Ctrl+K on a new line. Ask for CLI-based game of TicTacToe.
+# # Create an instance of MyClass
+# my_instance = MyClass()
 
-Step 2: Hit Cmd+L or Ctrl+L and ask the chat what the code does. 
-   - Then, try running the code
+# # Set some instance variables using the dictionary
+# my_instance.set_attribute('name', 'Alice')
+# my_instance.set_attribute('age', 30)
+# my_instance.set_attribute('job', 'Engineer')
 
-Step 3: Try highlighting all the code with your mouse, then hit Cmd+k or Ctrl+K. 
-   - Instruct it to change the game in some way (e.g. add colors, add a start screen, make it 4x4 instead of 3x3)
+# # Access the instance variables
+# print(my_instance.get_attribute('name'))  # Output: Alice
+# print(my_instance.get_attribute('age'))   # Output: 30
+# print(my_instance.get_attribute('job'))   # Output: Engineer
 
-Step 4: To try out cursor on your own projects, go to the file menu (top left) and open a folder.
-'''
+# # Remove an instance variable
+# my_instance.remove_attribute('age')
 
+# # Try to access the removed variable
+# print(my_instance.get_attribute('age'))   # Output: None
 
-def add(a: int, b: int) -> int:
-    """
-    Returns the sum of two integers.
+# # Print the current state of instance variables
+# print(my_instance)  # Output: {'name': 'Alice', 'job': 'Engineer'}
 
-    Args:
-        a (int): The first integer.
-        b (int): The second integer.
+# import logging
 
-    Returns:
-        int: The sum of a and b.
-    """
-    return a + b
+# my_dict = {'name': 'zh', 'age': 8}
+# logging.info("Dictionary contents: %s", str(my_dict))
 
-def subtract(a: int, b: int) -> int:
-    """
-    Returns the difference between two integers.
+from pathlib import Path
+import datetime
 
-    Args:
-        a (int): The first integer.
-        b (int): The second integer.
+path = Path('pi100m.txt')
+pi_string = path.read_text()
+my_birthday = '090703'
+birthday = datetime.date(2000 + int(my_birthday[:2]), int(my_birthday[2:4]), int(my_birthday[4:]))
+#print(pi_string[:7])
+if my_birthday in pi_string:
+    i = pi_string.index(my_birthday)
+    # print(pi_string[:i+6])
+    print(f'my birthday is: {birthday}')
+    print(f'my birthday is begin at NO: {i} digits in PI')
+    print(f'Total digits length of the current PI is: {len(pi_string)}')
+    
+s = "Hello, World!"
+new_s = s[:-1] if s else s
+print(new_s)  # 输出: "Hello, World"
 
-    Returns:
-        int: The difference between a and b.
-    """
-    return a - b
-
-print(add(5, 2.0))
-print(subtract(5, 2.0))
