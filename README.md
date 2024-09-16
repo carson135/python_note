@@ -1,5 +1,9 @@
 this is a test repository for cursor ai
 
+Django DB superuser: suadmin/test@111
+
+python manage.py runserver
+
 https://aigc.unipus.cn/home   13693633778  abc123
 
 https://www.cursor.com/features
