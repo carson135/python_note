@@ -1,0 +1,15 @@
+{% extends "lla1/base.html" %}
+
+{% block content %}
+<p>Topics:</p>
+
+<ul>
+    {% for topic in topics %}
+    <li>
+        <a href="{% url 'lla1:topic' topic.id %}">{{ topic.name }}</a>
+    </li>
+    {% empty %}
+    <li>No topics have been added yet.</li>
+    {% endfor %}
+</ul>
+{% endblock content %}
