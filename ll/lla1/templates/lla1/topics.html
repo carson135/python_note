@@ -1,16 +1,23 @@
 {% extends "lla1/base.html" %}
 
-{% block content %}
-<p>Topics:</p>
+{% block page_header %}
+    <h1>Topics</h1>
+{% endblock page_header %}
 
-<ul>
+{% block content %}
+
+<ul class="list-group border-bottom pb-2 mb-4">
     {% for topic in topics %}
-    <li>
-        <a href="{% url 'lla1:topic' topic.id %}">{{ topic.name }}</a>
-    </li>
+        <li class="list-group-item border-0">
+            <a href="{% url 'lla1:topic' topic.id %}">{{ topic.name }}</a>
+        </li>
     {% empty %}
-    <li>No topics have been added yet.</li>
+        <li class="list-group-item border-0">
+            <h3>No topics have been added yet.</h3>
+        </li>
     {% endfor %}
+
 </ul>
-<a href="{% url 'lla1:new_topic' %}">Add a new topic</a>    
+<a href="{% url 'lla1:new_topic' %}">Add a new topic</a>  
+  
 {% endblock content %}

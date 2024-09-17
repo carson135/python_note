@@ -33,6 +33,9 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # local apps
     'lla1.apps.Lla1Config',
+    'accounts.apps.AccountsConfig',
+    # third party apps
+    'django_bootstrap5',
     # default apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -124,3 +127,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# my setting:redirect to lla1 after login
+LOGIN_REDIRECT_URL = 'lla1:index' # error if use  '/lla1/
+
+LOGOUT_REDIRECT_URL = 'lla1:index'
+LOGIN_URL = 'accounts:login'
+
+
