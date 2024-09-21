@@ -1,0 +1,12 @@
+{% extends 'lla1/base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    <h1>Upload Media</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% bootstrap_button button_type="submit" content="Upload" %}
+        {% comment %} <button type="submit">Upload</button> {% endcomment %}
+    </form>
+{% endblock %}

@@ -1,4 +1,6 @@
 {% extends "lla1/base.html" %}
+{% load static %}
+
 
 {% block page_header %}
     <div class='p-3 mb-4 bg-light border rounded-3'>
@@ -11,4 +13,33 @@
     </div>
 {% endblock page_header %}
 
+
+{% block content %}
+    {% comment %} <h1>My 2022</h1>
+    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=477894934&bvid=BV1rK411r7me&cid=969858767&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe> {% endcomment %}
+    <audio controls autoplay loop >
+        <source src="{% static filename %}" type="audio/mpeg">
+        Your browser does not support the audio element. autoplay 'audio/gyz.mp3'
+    </audio>
+    <h1>Media Gallery</h1>
+    <a href="{% url 'lla1:upload_media' %}">Upload New Media</a>
+    <div class="media-grid">
+        {% for item in items %}
+            <div class="media-item">
+                <h2>{{ item.title }}</h2>
+                <p>{{ item.description }}</p>
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="img-fluid" style="max-width: 300px; height: auto;">
+                {% endif %}
+                {% if item.video %}
+                    <video class="img-fluid" style="max-width: 300px;" controls>
+                        <source src="{{ item.video.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                {% endif %}
+                <p>Uploaded: {{ item.uploaded_at }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
 

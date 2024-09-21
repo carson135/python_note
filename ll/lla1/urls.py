@@ -8,6 +8,9 @@ app_name = 'lla1'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    #path('', views.media_list, name='media_list'),
+    path('upload/', views.upload_media, name='upload_media'),
+    
     path('topics/', views.topics, name='topics'),
     path('topics/<int:topic_id>/', views.topic, name='topic'),
     # new topic page

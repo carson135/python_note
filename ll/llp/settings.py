@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-x-d@sc%lw)-r_j+a)vp6ekn4^$pn9tqr_$qq60yx+m3kfa8)4o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.*.*', 'localhost', '127.0.0.1', '192.168.10.2', 'mwin10',]
 
 
 # Application definition
@@ -36,6 +37,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     # third party apps
     'django_bootstrap5',
+    "debug_toolbar",
     # default apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,13 +48,14 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',    
 ]
 
 ROOT_URLCONF = 'llp.urls'
@@ -134,4 +137,16 @@ LOGIN_REDIRECT_URL = 'lla1:topics' # error if use  '/lla1/
 LOGOUT_REDIRECT_URL = 'lla1:index'
 LOGIN_URL = 'accounts:login'
 
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]

@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+import random
 
 #from django.contrib.auth.models import User
 
-from .models import Topic, Entry
-from .forms import TopicForm, EntryForm
+from .models import Topic, Entry, Media
+from .forms import TopicForm, EntryForm, MediaForm
 
 def index(request):
     """the home page for learning log"""
@@ -14,7 +15,11 @@ def index(request):
     #     print(user.username)
     #     print(user.password)
     #     print(user.id)
-    return render(request, 'lla1/index.html')
+    #media = Media.objects.all()
+    #return render(request, 'lla1/index.html')
+    filename = 'audio/' + str(random.randint(1,1000) % 3) + '.mp3' # Generate a random number between 1 and 100
+    items = Media.objects.all().order_by('-uploaded_at').filter(id = 2)
+    return render(request, 'lla1/index.html', {'items': items, 'filename': filename})
 
 
 @login_required
@@ -90,4 +95,17 @@ def edit_entry(request, entry_id):
 
     context = {'entry': entry, 'topic': topic, 'form': form}
     return render(request, 'lla1/edit_entry.html', context)
+
+# def media_list(request):
+    
+
+def upload_media(request):
+    if request.method == 'POST':
+        form = MediaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('lla1:index')
+    else:
+        form = MediaForm()
+    return render(request, 'lla1/upload_media.html', {'form': form})
 
