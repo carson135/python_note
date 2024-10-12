@@ -2,14 +2,14 @@
 
 {% block content %}
 
-<p><a href="{% url 'lla1:topic' topic.id %}">{{ topic }} - {{entry.id}} </a></p>
+<p><a href="{% url 'lla1:topic' topic.id %}">{{ topic }} </a> - {{entry.title}}</p>
 
 <p>Edit entry:</p>
 
 <form action="{% url 'lla1:edit_entry' entry.id %}" method='post'>
     {% csrf_token %}
-    {{ form.as_div }} {# render form as divs with labels and inputs or as_p #}
-    <button name="submit">save changes</button>
+    {{ form.as_p }} {# render form as divs with labels and inputs or as_p #}
+    <button class="btn btn-primary name="submit">save changes</button>
 </form>
 
 {% endblock content %}

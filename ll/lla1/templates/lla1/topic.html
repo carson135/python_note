@@ -13,11 +13,12 @@
 
     {% for entry in entries %}
     <div class="card mb-3">
-        <h4 class="card-header">
+        <h4 class="card-header">          
+            {% comment %}<small>{% endcomment %}
+                <a href="{% url 'lla1:edit_entry' entry.id %}">{{ entry.title }}</a>
+            {% comment %}</small>{% endcomment %}
+            --
             {{ entry.date_added|date:'M d, Y H:i' }}
-            <small>
-                <a href="{% url 'lla1:edit_entry' entry.id %}">Edit Entry</a>
-            </small>
         </h4>
         <div class="card-body">
             {{ entry.text|linebreaks }}

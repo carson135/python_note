@@ -1,45 +1,57 @@
 {% extends "lla1/base.html" %}
 {% load static %}
 
-
-{% block page_header %}
-    <div class='p-3 mb-4 bg-light border rounded-3'>
-        <div class='container-fluid py-4'>
-            <h1 class='display-3'>Note Book For Your Learning</h1>
-            <p class='lead'>You can view | add | update topic that you want to note, whenever you learn something new about a topic, make an entry summarizing what you've learned.</p>
-            
-            {% comment %}<a class='btn btn-primary btn-lg mt-1' href="{% url 'accounts:register' %}">Register &raquo;</a>{% endcomment %}
-        </div>
-    </div>
-{% endblock page_header %}
-
-
 {% block content %}
-    {% comment %} <h1>My 2022</h1>
-    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=477894934&bvid=BV1rK411r7me&cid=969858767&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe> {% endcomment %}
-    <audio controls autoplay loop >
-        <source src="{% static filename %}" type="audio/mpeg">
+    <h1>jing zhu</h1>    
+    <iframe id="bilibili-player" src="//player.bilibili.com/player.html?isOutside=true&aid=113241829147785&bvid=BV1zKxDewE4K&cid=26118916128&p=1&autoplay=0&qn=74" 
+            scrolling="no"
+            border="0"
+            frameborder="no"
+            framespacing="0"
+            allowfullscreen="true"
+            width="800"
+            height="450">
+    </iframe> 
+
+    <h1>My 2022</h1>
+    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=477894934&bvid=BV1rK411r7me&cid=969858767&p=1&autoplay=0" 
+            scrolling="no"
+            border="0"
+            frameborder="no"
+            framespacing="0"
+            allowfullscreen="true"
+            width="800"
+            height="450">
+            
+    </iframe> 
+    <br><br>
+    <h1>ZhengGongTa sunset clouds</h1>
+    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113173713653705&bvid=BV1mMtredELP&cid=25943411382&p=1&autoplay=0" 
+            scrolling="no"
+            border="0"
+            frameborder="no"
+            framespacing="0"
+            allowfullscreen="true"
+            class="img-fluid" style="max-width: 800px; height: auto;">
+    </iframe> 
+
+    <!-- selected static audio and entry to display-->
+    <br>
+    <audio controls loop >  <!-- autoplay loop -->
+        <source src="{% static staticFileName %}" type="audio/mpeg">
         Your browser does not support the audio element. autoplay 'audio/gyz.mp3'
     </audio>
-    <h1>Media Gallery</h1>
-    <a href="{% url 'lla1:upload_media' %}">Upload New Media</a>
-    <div class="media-grid">
-        {% for item in items %}
-            <div class="media-item">
-                <h2>{{ item.title }}</h2>
-                <p>{{ item.description }}</p>
-                {% if item.image %}
-                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="img-fluid" style="max-width: 300px; height: auto;">
-                {% endif %}
-                {% if item.video %}
-                    <video class="img-fluid" style="max-width: 300px;" controls>
-                        <source src="{{ item.video.url }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                {% endif %}
-                <p>Uploaded: {{ item.uploaded_at }}</p>
-            </div>
-        {% endfor %}
-    </div>
+
+    <br>
+    <pre>
+    {{ selectedEntry.text }}
+    </pre>
+
+    <!-- hardcoded static video to display-->
+    <video class="img-fluid" style="max-width: 300px;" controls /*autoplay*/ loop>
+        <source src="{% static "video/schoolsong.mp4" %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
 {% endblock content %}
 

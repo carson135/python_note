@@ -17,24 +17,31 @@ def index(request):
     #     print(user.id)
     #media = Media.objects.all()
     #return render(request, 'lla1/index.html')
-    filename = 'audio/' + str(random.randint(1,1000) % 3) + '.mp3' # Generate a random number between 1 and 100
-    items = Media.objects.all().order_by('-uploaded_at').filter(id = 2)
-    return render(request, 'lla1/index.html', {'items': items, 'filename': filename})
+    staticFileName = 'audio/' + str(random.randint(1,1000) % 3) + '.mp3' # Generate a random number between 1 and 100    
+    selectedEntry = Entry.objects.get(title='Be Genuine')
+    return render(request, 'lla1/index.html', {'staticFileName': staticFileName,
+                                               'selectedEntry': selectedEntry})
 
 
 @login_required
 def topics(request):
     """show all topics"""
-    topics = Topic.objects.filter(owner=request.user.id).order_by('date_created')
+    topics = Topic.objects.filter(owner=request.user.id).order_by('-priority')
     context = {'topics': topics}
     return render(request, 'lla1/topics.html', context)
+
+def gallery(request):
+    """show all media items"""
+    items = Media.objects.all().order_by('-uploaded_at').filter(title__contains = 'hype')
+    context = {'items': items}
+    return render(request, 'lla1/gallery.html', context)
 
 def topic(request, topic_id):
     """show a single topic and its entries"""
     topic = Topic.objects.get(id=topic_id)
     if topic.owner != request.user:
         raise Http404
-    entries = topic.entry_set.order_by('-date_added')
+    entries = topic.entry_set.order_by('-priority')
     context = {'topic': topic, 'entries': entries}
     return render(request, 'lla1/topic.html', context)
 
@@ -108,4 +115,7 @@ def upload_media(request):
     else:
         form = MediaForm()
     return render(request, 'lla1/upload_media.html', {'form': form})
+
+
+
 

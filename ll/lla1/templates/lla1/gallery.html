@@ -1,0 +1,51 @@
+{% extends "lla1/base.html" %}
+
+{% block page_header %}
+    <div class='p-3 mb-4 bg-light border rounded-3'>
+        Here you can view all the media you have uploaded.
+    </div>
+{% endblock page_header %}
+
+{% block content %}
+
+{% comment %}
+<ul class="list-group border-bottom pb-2 mb-4">
+    {% for item in items %}
+        <li class="list-group-item border-0">
+            <a href="{% url 'lla1:gallery_detail' item.id %}">{{ item.title }}</a>
+        </li>
+    {% empty %}
+        <li class="list-group-item border-0">
+            <h3>No media have been added yet.</h3>
+        </li>
+    {% endfor %}
+
+</ul>
+<a href="{% url 'lla1:upload_media' %}">Add a new media</a>  
+{% endcomment %}
+
+<br>
+    <h1>Media Gallery</h1>
+    
+    <a href="{% url 'lla1:upload_media' %}">Upload New Media</a>
+
+    <div class="media-grid">
+        {% for item in items %}
+            <div class="media-item">
+                <h2>{{ item.title }}</h2>
+                <p>{{ item.description }}</p>
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="img-fluid" style="max-width: 300px; height: auto;">
+                {% endif %}
+                {% if item.video %}
+                    <video class="img-fluid" style="max-width: 300px;" controls>
+                        <source src="{{ item.video.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                {% endif %}
+                {% comment %}<p>Uploaded: {{ item.uploaded_at }}</p>{% endcomment %}
+            </div>
+        {% endfor %}
+    </div>
+  
+{% endblock content %}
