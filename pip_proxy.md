@@ -1,4 +1,6 @@
-pip install--proxy http://127.0.0.1:10080
+pip install --proxy http://127.0.0.1:10080
+or
+pip install openai -i http://pypi.douban.com/simple --trusted-host pypi.douban.com
 
 Method 3: Configuring pip Configuration File
 You can also configure pip to use a proxy by modifying the pip configuration file.

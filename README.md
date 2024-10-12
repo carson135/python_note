@@ -2,7 +2,20 @@ this is a test repository for cursor ai
 
 Django DB superuser: suadmin/test@111
 
+python manage.py makemigrations [appname] # generate migration file
+python manage.py migrate
+
 python manage.py startapp appname   
+    add appname to settings.py INSTALLED_APPS
+        appname.apps.AppnameConfig
+    update project urls.py urlpatterns
+        path('appname/', include('appname.urls'))
+            create appname/urls.py
+                #if default Django accounts app, add path('', include('django.contrib.auth.urls'))
+                    #create login.html under accounts/templates/registration/
+                    #set LOGIN_REDIRECT_URL = '/appname/' in PROJECT settings.py
+                #if custom accounts app, add path('', include('accounts.urls'))
+
 python manage.py runserver
 
 Django logic:
