@@ -1,48 +1,75 @@
 {% extends "lla1/base.html" %}
-{% load static %}
+
+{% block page_header %}
+    <!-- idea: have a javascript animated loss function converging in the header? :p -->
+    <div id="dhead" class="container">
+      <div class="row">
+        <div id="dpic">
+          {% load static %}
+          <img src="{% static 'img/me_new.jpg' %}" class="ppic" alt="Profile picture" />
+        </div>
+        <div id="ddesc">
+          <h1>Carson Zhang</h1>
+          <h2>I like to build and play drone✈️, make video📹 to present the world that is not commonly seen. 💥</h2>
+          <div id="dico">
+            <a href="https://twitter.com/karpathy"><img src="{% static 'img/ctwitter.svg' %}" class="iico" /></a>
+            <a href="https://github.com/karpathy"><img src="{% static 'img/cgithub.svg' %}" class="iico"/></a>
+            <a href="https://karpathy.github.io"><img src="{% static 'img/crss.svg' %}" class="iico" /></a>
+            <a href="https://medium.com/@karpathy"><img src="{% static 'img/crss.svg' %}" class="iico" /></a>
+            <img src="{% static 'img/cemail.svg' %}" style="cursor: pointer;" class="iico" id="iemail" title="click to reveal" />
+          </div>
+          <div id="demail"></div> <!-- will reveal email -->
+        </div>
+      </div>
+    </div>
+
+    <hr>
+{% endblock page_header %}
 
 {% block content %}
-    <h1>jing zhu</h1>    
-    <iframe id="bilibili-player" src="//player.bilibili.com/player.html?isOutside=true&aid=113241829147785&bvid=BV1zKxDewE4K&cid=26118916128&p=1&autoplay=0&qn=74" 
-            scrolling="no"
-            border="0"
-            frameborder="no"
-            framespacing="0"
-            allowfullscreen="true"
-            width="800"
-            height="450">
-    </iframe> 
+    <h1>Jing Zhu</h1>    
+    <div class="responsive-iframe-container">
+        <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113241829147785&bvid=BV1zKxDewE4K&cid=26118916128&p=1&autoplay=0&qn=74" 
+                scrolling="no"
+                border="0"
+                frameborder="no"
+                framespacing="0"
+                allowfullscreen="true">
+        </iframe>
+    </div> 
 
+    <br><br>
     <h1>My 2022</h1>
-    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=477894934&bvid=BV1rK411r7me&cid=969858767&p=1&autoplay=0" 
-            scrolling="no"
-            border="0"
-            frameborder="no"
-            framespacing="0"
-            allowfullscreen="true"
-            width="800"
-            height="450">
-            
-    </iframe> 
+    <div class="responsive-iframe-container">
+        <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=477894934&bvid=BV1rK411r7me&cid=969858767&p=1&autoplay=0" 
+                scrolling="no"
+                border="0"
+                frameborder="no"
+                framespacing="0"
+                allowfullscreen="true">                     
+        </iframe> 
+    </div>
+
     <br><br>
     <h1>ZhengGongTa sunset clouds</h1>
-    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113173713653705&bvid=BV1mMtredELP&cid=25943411382&p=1&autoplay=0" 
+    <div class="responsive-iframe-container">
+        <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113173713653705&bvid=BV1mMtredELP&cid=25943411382&p=1&autoplay=0" 
             scrolling="no"
             border="0"
             frameborder="no"
             framespacing="0"
-            allowfullscreen="true"
-            class="img-fluid" style="max-width: 800px; height: auto;">
-    </iframe> 
+            allowfullscreen="true">
+        </iframe> 
+    </div>
 
     <!-- selected static audio and entry to display-->
-    <br>
+    <br><br>
     <audio controls loop >  <!-- autoplay loop -->
         <source src="{% static staticFileName %}" type="audio/mpeg">
         Your browser does not support the audio element. autoplay 'audio/gyz.mp3'
     </audio>
 
-    <br>
+    <br><br>
     <pre>
     {{ selectedEntry.text }}
     </pre>
