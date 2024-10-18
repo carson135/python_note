@@ -47,3 +47,7 @@ ssh-keygen -t ed25519 -C "carson135@gmail.com"
 
 git remote add origin git@github.com:carson135/PAI.git (url of the project on github site, origin as the abr name)
 
+# Remove file from githubrepository but keep it locally
+git rm --cached path/to/your/file
+git commit -m "Remove file from repository but keep it locally"
+git push origin main

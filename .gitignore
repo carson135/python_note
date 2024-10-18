@@ -1,14 +1,15 @@
-#Ignore pi.txt
-pi100m.txt
-
-# Ignore all .log files
-*.log
-
-# Ignore all files in the temp directory
-temp/
-ll/media/
-ll/static/
-
 # Ignore a specific file
 ll/db.sqlite3
+# Ignore all files in the static directory, such as static css/js/image/video/audio files
+# ll/static/
+# Ignore all files in the media directory, there are uploaded video/image/others big files by users
+ll/media/
+
+#Ignore pi.txt
+pi100m.txt
+# Ignore all .log files
+*.log
+# Ignore all files in the temp directory
+temp/
+# Ignore a specific file
 example.txt
