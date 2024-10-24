@@ -3,7 +3,8 @@ ll/db.sqlite3
 # Ignore all files in the static directory, such as static css/js/image/video/audio files
 # ll/static/
 # Ignore all files in the media directory, there are uploaded video/image/others big files by users
-ll/media/videos/*.mp4
+ll/media/videos/
+ll/media/images/
 ll/ll_env/
 
 #Ignore pi.txt
