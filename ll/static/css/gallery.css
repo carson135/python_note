@@ -1,0 +1,86 @@
+.gallery-item {
+    position: relative;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.gallery-item a {
+    display: block;
+    position: relative;
+    padding-top: 56.25%; /* Default 16:9 aspect ratio */
+    width: 100%;
+    overflow: hidden;
+}
+
+/* PC view - much larger images */
+@media (min-width: 992px) {
+    .gallery-item a {
+        padding-top: 75vh; /* 75% of viewport height for PC */
+        max-height: 1200px; /* Maximum height limit */
+    }
+    
+    .container-fluid {
+        padding: 0 20px; /* Increased side padding */
+    }
+    
+    .gallery {
+        margin: 0 -20px; /* Increased negative margin for spacing */
+    }
+    
+    .col-lg-6 {
+        padding: 0 10px; /* Increased column padding */
+    }
+}
+
+.gallery-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.gallery-caption {
+    padding: 20px;
+    background: #fff;
+}
+
+.gallery-caption h5 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gallery-caption p {
+    margin: 10px 0 0;
+    font-size: 1.1rem;
+    color: #666;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Mobile view remains unchanged */
+@media (max-width: 991px) {
+    .gallery-item a {
+        padding-top: 56.25%;
+    }
+    
+    .gallery-caption h5 {
+        font-size: 1rem;
+    }
+    
+    .gallery-caption p {
+        font-size: 0.9rem;
+        margin: 5px 0 0;
+    }
+}

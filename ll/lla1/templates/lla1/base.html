@@ -63,7 +63,11 @@
         <div>
             {% block content %}
             {% endblock content %}
-        </div>        
+        </div>
+        {% block extra_css %}
+        {% endblock extra_css %}
+        {% block extra_js %}
+        {% endblock extra_js %}
     </main>
 </body>
 </html>

@@ -1,4 +1,30 @@
 {% extends "lla1/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
+<link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+<style>
+    /* Fallback styles in case gallery.css doesn't load */
+    .gallery-item a {
+        display: block;
+        position: relative;
+        padding-top: 56.25%; /* 16:9 aspect ratio */
+        width: 100%;
+        overflow: hidden;
+    }
+    .gallery-item img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+</style>
+{% endblock %}
+
 
 {% block page_header %}
     <div class='p-3 mb-4 bg-light border rounded-3'>
@@ -7,9 +33,83 @@
             <p class='lead' style="text-align: right;">-- Hesse's Demian</p>
         </div>
     </div>
+
+    <br>
+    <h1>Media Gallery</h1>    
+    <a href="{% url 'lla1:upload_media' %}">Upload New Media</a>
 {% endblock page_header %}
 
+
+
 {% block content %}
+<div style="background-color: #eee; padding-top: 1px; margin-top: 10px;" class="custom-cursor-default-hover">
+      <div id="featured-talks" class="container custom-cursor-default-hover">
+        <div class="ctitle custom-cursor-default-hover">featured shots</div>
+        <div class="row custom-cursor-default-hover">
+          {% for image in images %}
+          <div class="card custom-cursor-default-hover">
+            <a href="{{ image.image.url }}" data-lightbox="gallery" data-title="{{ image.title }}">
+                <div class="ccimg custom-cursor-on-hover"><img src="{{ image.image.url }}"  class="custom-cursor-on-hover"></div>
+            </a>
+            <div class="cdesc custom-cursor-default-hover">{{ image.title }}</div>
+          </div> 
+          {% endfor %}   
+          {% comment %}
+          <div class="card">
+            <a href="https://www.youtube.com/watch?v=cdiD-9MMpb0">
+              <div class="ccimg"><img src="assets/lex333.jpg"></div>
+            </a>
+            <div class="cdesc">Lex Fridman podcast 2022</div>
+          </div> 
+          {% endcomment %}        
+        </div>
+      </div>
+    </div>
+{% endblock content %}
+
+{% comment %}
+{% block content %}
+    <div class="container-fluid">
+        <h1 class="text-center mb-5">Image Gallery</h1>
+        
+        <div class="row gallery">
+            {% for image in images %}
+                <div class="col-12 col-sm-6 col-lg-6 mb-4">
+                    <div class="gallery-item">
+                        <a href="{{ image.image.url }}" data-lightbox="gallery" data-title="{{ image.title }}">
+                            <img 
+                                src="{{ image.image.url }}" 
+                                alt="{{ image.title }}" 
+                                class="img-fluid rounded"
+                                loading="lazy"
+                            >
+                        </a>
+                        <div class="gallery-caption">
+                            <h5>{{ image.title }}</h5>
+                            {% if image.description %}
+                                <p>{{ image.description }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% endcomment %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox-plus-jquery.min.js"></script>
+<script>
+    // Initialize lightbox with custom options
+    lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true,
+        'albumLabel': 'Image %1 of %2'
+    });
+</script>
+{% endblock %}
+
 
 {% comment %}
 <ul class="list-group border-bottom pb-2 mb-4">
@@ -27,11 +127,9 @@
 <a href="{% url 'lla1:upload_media' %}">Add a new media</a>  
 {% endcomment %}
 
-<br>
-    <h1>Media Gallery</h1>
-    
-    <a href="{% url 'lla1:upload_media' %}">Upload New Media</a>
 
+
+{% comment %}
     <div class="media-grid">
         {% for item in items %}
             <div class="media-item">
@@ -46,9 +144,8 @@
                         Your browser does not support the video tag.
                     </video>
                 {% endif %}
-                {% comment %}<p>Uploaded: {{ item.uploaded_at }}</p>{% endcomment %}
+                <p>Uploaded: {{ item.uploaded_at }}</p>
             </div>
         {% endfor %}
     </div>
-  
-{% endblock content %}
+{% endcomment %}  

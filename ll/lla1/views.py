@@ -32,8 +32,8 @@ def topics(request):
 
 def gallery(request):
     """show all media items"""
-    items = Media.objects.all().order_by('-uploaded_at').filter(title__contains = 'hype')
-    context = {'items': items}
+    images = Media.objects.all().order_by('-uploaded_at').filter(image__contains = 'JPG')
+    context = {'images': images}
     return render(request, 'lla1/gallery.html', context)
 
 def topic(request, topic_id):
