@@ -25,15 +25,19 @@ def index(request):
 
 @login_required
 def topics(request):
+    """show header"""
+    selectedEntry = Entry.objects.get(title='notebook header')
     """show all topics"""
     topics = Topic.objects.filter(owner=request.user.id).order_by('-priority')
-    context = {'topics': topics}
+    context = {'selectedEntry': selectedEntry,'topics': topics}
     return render(request, 'lla1/topics.html', context)
 
 def gallery(request):
+    """show header"""
+    selectedEntry = Entry.objects.get(title='gallery header')
     """show all media items"""
     images = Media.objects.all().order_by('-uploaded_at').filter(image__contains = 'JPG')
-    context = {'images': images}
+    context = {'selectedEntry': selectedEntry,'images': images}
     return render(request, 'lla1/gallery.html', context)
 
 def topic(request, topic_id):
