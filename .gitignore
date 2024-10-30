@@ -7,6 +7,8 @@ ll/media/videos/
 ll/media/images/
 ll/ll_env/
 
+# Ignore vscode launch.json, ubuntu and win11 have different launch.json version
+.vscode/launch.json
 #Ignore pi.txt
 pi100m.txt
 # Ignore all .log files
