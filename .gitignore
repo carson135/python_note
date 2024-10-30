@@ -6,9 +6,11 @@ ll/db.sqlite3
 ll/media/videos/
 ll/media/images/
 ll/ll_env/
+ll/lla1/__pycache__/
 
 # Ignore vscode launch.json, ubuntu and win11 have different launch.json version
 .vscode/launch.json
+
 #Ignore pi.txt
 pi100m.txt
 # Ignore all .log files
