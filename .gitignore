@@ -7,6 +7,9 @@ ll/media/videos/
 ll/media/images/
 ll/ll_env/
 ll/lla1/__pycache__/
+ll/lla1/migrations/__pycache__/
+ll/llp/__pycache__/
+ll/accounts/__pycache__/
 
 # Ignore vscode launch.json, ubuntu and win11 have different launch.json version
 .vscode/launch.json
