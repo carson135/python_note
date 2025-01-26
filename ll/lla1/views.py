@@ -40,6 +40,7 @@ def gallery(request):
     context = {'selectedEntry': selectedEntry,'images': images}
     return render(request, 'lla1/gallery.html', context)
 
+@login_required
 def topic(request, topic_id):
     """show a single topic and its entries"""
     topic = Topic.objects.get(id=topic_id)
@@ -49,6 +50,7 @@ def topic(request, topic_id):
     context = {'topic': topic, 'entries': entries}
     return render(request, 'lla1/topic.html', context)
 
+@login_required
 def new_topic(request):
     """add a new topic"""
     if request.method != 'POST':
@@ -67,6 +69,7 @@ def new_topic(request):
     context = {'form': form}
     return render(request, 'lla1/new_topic.html', context)
 
+@login_required
 def new_entry(request, topic_id):
     """add a new entry for a particular topic"""
     topic = Topic.objects.get(id=topic_id)
@@ -87,6 +90,7 @@ def new_entry(request, topic_id):
     context = {'topic': topic, 'form': form}
     return render(request, 'lla1/new_entry.html', context)  
 
+@login_required
 def edit_entry(request, entry_id):
     """edit an existing entry"""
     entry = Entry.objects.get(id=entry_id)
@@ -109,7 +113,7 @@ def edit_entry(request, entry_id):
 
 # def media_list(request):
     
-
+@login_required
 def upload_media(request):
     if request.method == 'POST':
         form = MediaForm(request.POST, request.FILES)
