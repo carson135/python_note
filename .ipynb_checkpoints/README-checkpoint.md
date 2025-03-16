@@ -1,23 +1,76 @@
-# PAI
-python artificial intelligent test
+this is a test repository for cursor ai
 
-Client:
-git init, generate .git file as local repository
-git add filename (-A add all files in current fold), stag, git reove, unstage
-git commit
+Django DB superuser: suadmin/test@111
 
-git branch -M main, create local main branch 
+python manage.py makemigrations [appname] # generate migration file
+python manage.py migrate
 
-ssh-keygen -t ed25519 -C "carson135@gmail.com"
-    create two files at ~/.ssh/, 
-    update ~/.ssh/config file, add 
-      Host *
-        AddKeysToAgent yes
-        IdentityFile ~/.ssh/id_ed25519
+python manage.py startapp appname   
+    add appname to settings.py INSTALLED_APPS
+        appname.apps.AppnameConfig
+    update project urls.py urlpatterns
+        path('appname/', include('appname.urls'))
+            create appname/urls.py
+                #if default Django accounts app, add path('', include('django.contrib.auth.urls'))
+                    #create login.html under accounts/templates/registration/
+                    #set LOGIN_REDIRECT_URL = '/appname/' in PROJECT settings.py
+                #if custom accounts app, add path('', include('accounts.urls'))
+
+python manage.py runserver
+
+Django logic:
+urls.py: define url patterns and use which view to be called when a url patten matched
+    views.py: define how to get data from DB with models defined data structure, and transfer all data into dictionary object: context,  and pass to a specific template(html filename under \templates\appname\filename.html)
         
-    put pub key to github settting key filed
- ssh -T git@github.com  (ssh connected through ~/.ssh/config IdentityFile email and username configuration )
+        models.py: define the structure of the data that our app will manage
+        
+        x.html: define how to display the data, 
+            {% extends "appname/base.html" %}
 
-git remote add origin git@github.com:carson135/PAI.git (url of the project on github site, origin as the abr name)
-git push origin main, push local main branch updates to github
+            {% block blockname %}
+                {{ context keyword_name }}
+
+                {% for item in context keyword list object name %}
+                    {{ item.attribute [|filter to format the attribute data] }}
+                {% endfor %}
+
+            {% endblock blockname %}
+
+https://aigc.unipus.cn/home   13693633778  abc123
+
+https://www.cursor.com/features
+https://cursorcasts.com/
+
+command: jupyter lab
+https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/execute.html
+
+https://www.youtube.com/@AndrejKarpathy
+https://www.youtube.com/watch?v=kCc8FmEb1nY
+https://github.com/karpathy/llama2.c
+https://pytorch.org/docs/stable/generated/torch.multinomial.html#torch-multinomial
+
+https://platform.openai.com/docs/quickstart/adjust-your-settings?context=python
+
+
+python course:
+regular expression:
+https://www.bilibili.com/video/BV16b411n7U4/?p=41&spm_id_from=pageDriver&vd_source=f4956936351cafcf49bea22f69352f0d
+learning AI following Li mo from bilibili:
+https://search.bilibili.com/all?vt=50443064&keyword=%E8%B7%9F%E6%9D%8E%E6%B2%90%E5%AD%A6ai&from_source=webtop_search&spm_id_from=333.1007&search_source=5
+
+FOC control:
+https://zhuanlan.zhihu.com/p/147659820
+https://www.bilibili.com/video/BV16X4y167XZ/?spm_id_from=333.1007.tianma.1-1-1.click&vd_source=f4956936351cafcf49bea22f69352f0d
+
+AI Learning:
+https://www.prettypolly.app/signup  #Learning English
+
+trip:
+west of sichuan:
+https://www.bilibili.com/video/BV1RF411d76n/?spm_id_from=autoNext&vd_source=f4956936351cafcf49bea22f69352f0d
+
+port freeRTOS to STM32F407:
+https://www.bilibili.com/video/BV1GN4y157fy/?p=9&vd_source=f4956936351cafcf49bea22f69352f0d
+
+
 

@@ -40,6 +40,8 @@ https://aigc.unipus.cn/home   13693633778  abc123
 
 https://www.cursor.com/features
 https://cursorcasts.com/
+
+command: jupyter lab
 https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/execute.html
 
 https://www.youtube.com/@AndrejKarpathy

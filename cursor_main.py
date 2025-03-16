@@ -14,6 +14,7 @@ Step 3: Try highlighting all the code with your mouse, then hit Cmd+k or Ctrl+K.
 Step 4: To try out cursor on your own projects, go to the file menu (top left) and open a folder.
 '''
 
+import gensim.downloader
 
 def add(a: int, b: int) -> int:
     """
@@ -43,3 +44,6 @@ def subtract(a: int, b: int) -> int:
 
 print(add(5, 2.0))
 print(subtract(5, 2.0))
+
+model = gensim.downloader.load("glove-wiki-gigaword-50")
+model["tower"]

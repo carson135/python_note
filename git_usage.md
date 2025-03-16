@@ -1,38 +1,37 @@
-git init
-git add .
-git commit -m "message"# PAI
-python artificial intelligent test
-
-
-git branch
-
-git checkout localbranch
-git checkout -b newbranchname or git branch -M main, create local main branch 
-
-git remote -v
-git remote add new-origin https://github.com/yourusername/new-repository-name.git
-git remote remove origin
-git remote set-url origin https://github.com/yourusername/new-repository-name.git
-
-git push -u origin localbranch
-git push
-
-git fetch origin
-
 git config --global user.name "Your Name"
 git config --global user.email "your.email@example.com"
 
 git clone https://github.com/yourusername/new-repository-name.git
 
+git init
+git add .
+git commit -m "message"# PAI
+git push # upload from local default branch to remote repository branch
+git push -u origin localbranch #upload local specific branch
 
+git pull #use the default configured remote and branch
+git pull origin branch-name
 
+git fetch #to see what changes would be pulled before actually pulling them
+git fetch origin
+
+git branch
+git branch -r/-a
+git branch -vv
+git remote show origin  #show remote repository url and all branches
+
+git checkout localbranch #change local branch
+git checkout -b newbranchname or git branch -M main #create local new branch 
+
+git remote -v #show remote repository url of fetch and push
+git remote add new-origin https://github.com/yourusername/new-repository-name.git
+git remote remove origin
+git remote set-url origin https://github.com/yourusername/new-repository-name.git
 
 Client:
 git init, generate .git file as local repository
-git add filename (-A add all files in current fold), stag, git reove, unstage
+git add filename #-A add all files in current fold
 git commit
-
-git branch -M main, create local main branch 
 
 ssh-keygen -t ed25519 -C "carson135@gmail.com"
     create two files at ~/.ssh/, 
