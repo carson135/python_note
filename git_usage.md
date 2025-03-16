@@ -2,7 +2,7 @@ git config --global user.name "Your Name"
 git config --global user.email "your.email@example.com"
 
 git clone https://github.com/yourusername/new-repository-name.git
-
+# git clone will use below commands to finish it's job
 mkdir new-repository, cd new-repository
 git init
 git remote add origin https://github.com/username/repository-name.git
@@ -18,7 +18,7 @@ git pull #use the default configured remote and branch
 git pull origin branch-name
 # Force the pull (discard local changes)
 git reset --hard
-git pull
+git pull 
 
 git fetch #to see what changes would be pulled before actually pulling them
 git fetch origin
