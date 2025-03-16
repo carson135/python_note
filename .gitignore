@@ -6,6 +6,7 @@ ll/db.sqlite3
 ll/media/videos/
 ll/media/images/
 ll/ll_env/
+ll/staticfiles
 ll/lla1/__pycache__/
 ll/lla1/migrations/__pycache__/
 ll/llp/__pycache__/
