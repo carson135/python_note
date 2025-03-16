@@ -1,7 +1,5 @@
 this is a test repository for cursor ai
 
-Django DB superuser: suadmin/test@111
-
 python manage.py makemigrations [appname] # generate migration file
 python manage.py migrate
 
