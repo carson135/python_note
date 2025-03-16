@@ -150,6 +150,7 @@ STATICFILES_DIRS = [
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-print(f"STATIC_URL: {STATIC_URL}")
-print(f"STATIC_ROOT: {STATIC_ROOT}")
-print(f"STATICFILES_DIRS: {STATICFILES_DIRS}")
+CSRF_TRUSTED_ORIGINS = ['http://sirius135.xyz:81', 'https://sirius135.xyz:81']
+CORS_ALLOWED_ORIGINS = [
+    'http://sirius135.xyz:81',
+]
