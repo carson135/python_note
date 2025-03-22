@@ -14,7 +14,6 @@ ll/accounts/__pycache__/
 ll/accounts/migrations/__pycache__/
 
 #temp
-ll/llp/settings.py
 
 # Ignore vscode launch.json, ubuntu and win11 have different launch.json version
 .vscode

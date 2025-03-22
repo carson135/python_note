@@ -29,7 +29,7 @@ def send_sms_verification(phone_number, verification_code):
     phone_number = phone_number.replace('+', '').replace(' ', '')
     
     # Initialize ACS client
-    client = AcsClient(ACCESS_KEY_ID, ACCESS_KEY_SECRET, 'cn-hangzhou')
+    client = AcsClient(ACCESS_KEY_ID, 'gYdi2uGtJaWfLzTvw4AGVRRCpZf6MY', 'cn-hangzhou')
     
     # Create request
     request = CommonRequest()
