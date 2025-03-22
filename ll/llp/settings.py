@@ -161,8 +161,3 @@ CORS_ALLOWED_ORIGINS = [
 
 # Add this line to specify the custom user model
 AUTH_USER_MODEL = 'accounts.CustomUser'
-
-ALIYUN_ACCESS_KEY_ID = 'LTAI5tMLZ9ag65u3bLeD9yPQ'
-
-ALIYUN_SMS_SIGN_NAME = '阿里云短信测试'
-ALIYUN_SMS_TEMPLATE_CODE = 'SMS_154950909'

@@ -5,10 +5,10 @@ from aliyunsdkcore.request import CommonRequest
 from django.conf import settings
 
 # Get these values from your Alibaba Cloud account
-ACCESS_KEY_ID = settings.ALIYUN_ACCESS_KEY_ID
-ACCESS_KEY_SECRET = settings.ALIYUN_ACCESS_KEY_SECRET
-SIGN_NAME = settings.ALIYUN_SMS_SIGN_NAME
-TEMPLATE_CODE = settings.ALIYUN_SMS_TEMPLATE_CODE
+ACCESS_KEY_ID = 'LTAI5tMLZ9ag65u3bLeD9yPQ' #settings.ALIYUN_ACCESS_KEY_ID
+ACCESS_KEY_SECRET = '' #settings.ALIYUN_ACCESS_KEY_SECRET
+SIGN_NAME = '阿里云短信测试' #settings.ALIYUN_SMS_SIGN_NAME
+TEMPLATE_CODE = 'SMS_154950909' #settings.ALIYUN_SMS_TEMPLATE_CODE
 
 def generate_verification_code():
     """Generate a random 6-digit verification code"""
@@ -29,7 +29,7 @@ def send_sms_verification(phone_number, verification_code):
     phone_number = phone_number.replace('+', '').replace(' ', '')
     
     # Initialize ACS client
-    client = AcsClient(ACCESS_KEY_ID, 'gYdi2uGtJaWfLzTvw4AGVRRCpZf6MY', 'cn-hangzhou')
+    client = AcsClient(ACCESS_KEY_ID, ACCESS_KEY_SECRET, 'cn-hangzhou')
     
     # Create request
     request = CommonRequest()
