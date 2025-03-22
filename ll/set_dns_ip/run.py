@@ -7,7 +7,7 @@ import os
 
 def task():
     #print(os.getcwd())
-    os.system('python3 /home/pi/set_dns_ip/checkdnsip.py > /home/pi/set_dns_ip/log.txt 2>&1 &')   #ipv4py
+    os.system('python3 /home/nova/python_note/ll/set_dns_ip/checkdnsip.py > /home/nova/python_note/ll/set_dns_ip/log.txt 2>&1 &')   #ipv4py
     #logs.logs('running...')
 
 while True:
