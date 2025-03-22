@@ -1,5 +1,7 @@
 # Ignore a specific file
 ll/db.sqlite3
+ll/accounts/utils.py
+ll/set_dns_ip/checkdnsip.py
 # Ignore all files in the static directory, such as static css/js/image/video/audio files
 # ll/static/
 # Ignore all files in the media directory, there are uploaded video/image/others big files by users
