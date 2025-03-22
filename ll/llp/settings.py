@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-x-d@sc%lw)-r_j+a)vp6ekn4^$pn9tqr_$qq60yx+m3kfa8)4o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.*.*', 'localhost', '127.0.0.1', '192.168.10.2', '192.168.10.3', 'mwin10', '192.168.1.3', '192.168.1.4', '192.168.3.29', 'sirius135.xyz', '192.168.2.8', ]
+ALLOWED_HOSTS = ['192.168.*.*', 'localhost', '127.0.0.1', '192.168.10.2', '192.168.10.3', 'mwin10', '192.168.1.3', '192.168.1.4', '192.168.3.29', 'sirius135.xyz', '192.168.2.8', '192.168.2.2',]
 
 
 # Application definition
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # local apps
     'lla1.apps.Lla1Config',
     'accounts.apps.AccountsConfig',
+    #'accounts',
     # third party apps
     'django_bootstrap5',
     "debug_toolbar",
@@ -114,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Hong_Kong'
 
 USE_I18N = True
 
@@ -142,7 +143,10 @@ INTERNAL_IPS = [
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# python manager.py collectfiles will use the root fold to save all static files, 
+# and nginx will set the root fold as static fold to serve
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+# collectfiles will search below folds as well
 STATICFILES_DIRS = [
     BASE_DIR / "static",  #os.path.join(BASE_DIR, 'static'),
 ]
@@ -154,3 +158,11 @@ CSRF_TRUSTED_ORIGINS = ['http://sirius135.xyz:81', 'https://sirius135.xyz:81']
 CORS_ALLOWED_ORIGINS = [
     'http://sirius135.xyz:81',
 ]
+
+# Add this line to specify the custom user model
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+ALIYUN_ACCESS_KEY_ID = 'LTAI5tMLZ9ag65u3bLeD9yPQ'
+
+ALIYUN_SMS_SIGN_NAME = '阿里云短信测试'
+ALIYUN_SMS_TEMPLATE_CODE = 'SMS_154950909'

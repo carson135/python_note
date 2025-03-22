@@ -18,15 +18,21 @@ def index(request):
     #media = Media.objects.all()
     #return render(request, 'lla1/index.html')
     staticFileName = 'audio/' + str(random.randint(1,1000) % 3) + '.mp3' # Generate a random number between 1 and 100    
-    selectedEntry = Entry.objects.get(title='Be Genuine')
+    try:
+        selected_entry = Entry.objects.get(title='Be Genuine')
+    except Entry.DoesNotExist:
+        selected_entry = None
     return render(request, 'lla1/index.html', {'staticFileName': staticFileName,
-                                               'selectedEntry': selectedEntry})
+                                               'selectedEntry': selected_entry})
 
 
 @login_required
 def topics(request):
     """show header"""
-    selectedEntry = Entry.objects.get(title='notebook header')
+    try:
+        selectedEntry = Entry.objects.get(title='notebook header')
+    except Entry.DoesNotExist:
+        selectedEntry = None
     """show all topics"""
     topics = Topic.objects.filter(owner=request.user.id).order_by('-priority')
     context = {'selectedEntry': selectedEntry,'topics': topics}
@@ -34,7 +40,10 @@ def topics(request):
 
 def gallery(request):
     """show header"""
-    selectedEntry = Entry.objects.get(title='gallery header')
+    try:
+        selectedEntry = Entry.objects.get(title='gallery header')
+    except Entry.DoesNotExist:
+        selectedEntry = None
     """show all media items"""
     images = Media.objects.all().order_by('-uploaded_at').filter(image__contains = 'JPG')
     context = {'selectedEntry': selectedEntry,'images': images}

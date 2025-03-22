@@ -1,16 +1,883 @@
 {% extends "lla1/base.html" %}
 {% load django_bootstrap5 %}
 
-{% block page_header %}
-    <h2>Log in to your account.</h2>
-{% endblock page_header %}
-
 {% block content %}
+<div class="full-width-login">    
+    <div class="login-card">
+        <div class="text-center mb-4">
+            <h2>Log in to your account</h2>
+        </div>
+        
+        <!-- Tab navigation -->
+        <div class="login-tabs">
+            <div class="tab active" data-target="code-login">Code login</div>
+            <div class="tab" data-target="password-login">Password login</div>
+        </div>
+        
+        <!-- Code login form - active by default -->
+        <div class="login-form-container" id="code-login">
+            <p class="region-notice">Only login via phone number, WeChat, email is supported in your region.</p>
+            
+            {% if error %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+            {% endif %}
+            
+            <form method="post" action="{% url 'accounts:sms_login' %}" class="login-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <i class="phone-icon">📱</i>
+                        <input type="text" name="phone_number" id="phone_number" placeholder="Phone number" 
+                               value="{% if error and 'verification code' in error %}{{ request.POST.phone_number }}{% else %}+86 {% endif %}" 
+                               oninput="validatePhoneNumber()">
+                    </div>
+                    <div id="phone-validation-message" class="validation-message"></div>
+                </div>
+                
+                <div class="form-group verification-group">
+                    <div class="input-with-icon code-input">
+                        <i class="code-icon">#</i>
+                        <input type="text" name="verification_code" id="verification_code" placeholder="Code">
+                    </div>
+                    <button type="button" class="send-code-btn" disabled>Send code</button>
+                </div>
+                
+                <!-- CAPTCHA Modal -->
+                <div id="captcha-modal" class="captcha-modal">
+                    <div class="captcha-modal-content">
+                        <div class="modal-header">
+                            <h3>Verify you are human</h3>
+                            <button type="button" id="refresh-captcha" class="refresh-btn">
+                                <svg viewBox="0 0 24 24" width="18" height="18">
+                                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 9h7V2l-2.35 2.35z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="close-btn" id="close-captcha">
+                                <svg viewBox="0 0 24 24" width="18" height="18">
+                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="captcha-content">
+                            <div id="visual-captcha-image">
+                                <!-- This will be populated with the CAPTCHA image -->
+                            </div>
+                            <div class="captcha-instruction" id="captcha-prompt"></div>
+                        </div>
+                        <div id="captcha-message"></div>
+                    </div>
+                </div>
+                
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="terms_agreement" name="terms_agreement">
+                    <label for="terms_agreement">I confirm that I have read, consent and agree to DS's <a href="#" class="terms-link">Terms of Use</a> and <a href="#" class="privacy-link">Privacy Policy</a>. New phone numbers will be automatically registered.</label>
+                </div>
+                
+                <div class="submit-btn">
+                    <button type="submit">Log in</button>
+                </div>
+            </form>
+            
+            <div class="alternate-login">
+                <div class="or-divider">OR</div>
+                <button class="wechat-login-btn" onclick="loginWithWeChat()">
+                    {% load static %}
+                    <img src="{% static 'img/wechat.png' %}" alt="WeChat" class="wechat-icon">
+                    Log in with WeChat
+                </button>
+            </div>
+        </div>
+        
+        <!-- Password login form - hidden by default -->
+        <div class="login-form-container" id="password-login" style="display: none;">
+            <p class="region-notice">Only login via phone number, WeChat, email is supported in your region.</p>
+            
+            <form method="post" action="{% url 'accounts:login' %}" class="login-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <i class="phone-icon">📱</i>
+                        <input type="text" name="phone_number" id="id_phone_number" placeholder="Phone number / email address">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <i class="password-icon">🔒</i>
+                        <input type="password" name="password" id="id_password" placeholder="Password">
+                        <i class="eye-icon">👁️</i>
+                    </div>
+                </div>
+                
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="terms_agreement_pwd" name="terms_agreement">
+                    <label for="terms_agreement_pwd">I confirm that I have read, consent and agree to DeepSeek's <a href="#" class="terms-link">Terms of Use</a> and <a href="#" class="privacy-link">Privacy Policy</a>.</label>
+                </div>
+                
+                <div class="submit-btn">
+                    <button type="submit">Log in</button>
+                </div>
+            </form>
+            
+            <div class="login-options">
+                <div class="forgot-password">
+                    <a href="{% url 'accounts:login' %}">Forgot password?</a>
+                </div>
+                <div class="signup-link">
+                    <a href="{% url 'accounts:register' %}">Sign up</a>
+                </div>
+            </div>
+            
+            <div class="alternate-login">
+                <div class="or-divider">OR</div>
+                <button class="wechat-login-btn">
+                    {% load static %}
+                    <img src="{% static 'img/wechat.png' %}" alt="WeChat" class="wechat-icon">
+                    Log in with WeChat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<form method="post" action="{% url 'accounts:login' %}">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% bootstrap_button button_type="submit" content="Login" %}    
-</form>
+<style>
+/* Reset any potential interfering styles */
+.full-width-login {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
+.login-card {
+    width: 350px;
+    max-width: 90%;
+    margin: 0 auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* Tab styling */
+.login-tabs {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.login-tabs .tab {
+    flex: 1;
+    text-align: center;
+    padding: 15px 0;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    color: #888;
+}
+
+.login-tabs .tab.active {
+    border-bottom: 3px solid #0d6efd;
+    font-weight: normal;
+    color: #0d6efd;
+}
+
+/* Form styling */
+.login-form-container {
+    padding: 30px;
+}
+
+.login-form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.forgot-password a {
+    color: #0d6efd;
+    text-decoration: none;
+}
+
+.submit-btn {
+    margin-top: 15px;
+}
+
+.submit-btn button {
+    width: 100%;
+    padding: 15px;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.register-link {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.register-link a {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .login-card {
+        width: 100%;
+    }
+    
+    .login-form-container {
+        padding: 20px;
+    }
+}
+
+/* Add these styles to the existing style section */
+.input-group {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.country-code {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    padding: 12px 15px;
+    font-size: 16px;
+    color: #495057;
+}
+
+.input-group input {
+    border-radius: 0 4px 4px 0;
+    flex: 1;
+}
+
+/* Add these new styles */
+.region-notice {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.input-with-icon {
+    position: relative;
+    width: 100%;
+}
+
+.email-icon, .password-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+}
+
+.input-with-icon input {
+    padding-left: 45px;
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.verification-group {
+    display: flex;
+    gap: 10px;
+}
+
+.code-input {
+    flex: 1;
+    width: 60%;
+}
+
+.send-code-btn {
+    padding: 0 15px;
+    background-color: white;
+    border: 1px solid #0d6efd;
+    color: #0d6efd;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    width: 40%;
+}
+
+.terms-checkbox {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.terms-checkbox input {
+    margin-top: 5px;
+}
+
+.terms-checkbox label {
+    font-size: 14px;
+    color: #666;
+}
+
+.terms-link, .privacy-link {
+    color: #0d6efd;
+    text-decoration: none;
+}
+
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.or-divider {
+    text-align: center;
+    position: relative;
+    margin: 20px 0;
+    color: #888;
+}
+
+.or-divider::before, .or-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: #ddd;
+}
+
+.or-divider::before {
+    left: 0;
+}
+
+.or-divider::after {
+    right: 0;
+}
+
+.wechat-login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    gap: 10px;
+}
+
+.wechat-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.visual-captcha-modal {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    overflow: hidden;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.refresh-btn, .close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.refresh-btn:hover, .close-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.captcha-content {
+    padding: 20px;
+}
+
+#visual-captcha-image {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    position: relative;
+}
+
+.captcha-instruction {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #444;
+}
+
+#captcha-message {
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.captcha-object {
+    position: absolute;
+    cursor: pointer;
+}
+
+/* CAPTCHA Modal Styles */
+.captcha-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.captcha-modal-content {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    overflow: hidden;
+    animation: modalFade 0.3s ease;
+}
+
+@keyframes modalFade {
+    from {transform: translateY(-20px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h3 {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.refresh-btn, .close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555;
+    padding: 5px;
+    margin-left: 10px;
+    border-radius: 4px;
+}
+
+.refresh-btn:hover, .close-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.captcha-content {
+    padding: 20px;
+}
+
+#visual-captcha-image {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    position: relative;
+}
+
+.captcha-instruction {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #444;
+}
+
+#captcha-message {
+    text-align: center;
+    padding: 10px 20px 20px;
+    font-size: 14px;
+}
+
+.captcha-object {
+    position: absolute;
+    cursor: pointer;
+}
+
+.validation-message {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 5px;
+    min-height: 20px;
+}
+
+/* Style for when button is disabled */
+.send-code-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Add these new styles */
+.phone-icon, .code-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 16px;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tab switching functionality
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            this.classList.add('active');
+            
+            // Hide all form containers
+            document.querySelectorAll('.login-form-container').forEach(container => {
+                container.style.display = 'none';
+            });
+            
+            // Show the selected form container
+            const targetId = this.getAttribute('data-target');
+            document.getElementById(targetId).style.display = 'block';
+        });
+    });
+    
+    // Password visibility toggle
+    const eyeIcon = document.querySelector('.eye-icon');
+    const passwordInput = document.getElementById('id_password');
+    
+    if (eyeIcon && passwordInput) {
+        eyeIcon.addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        });
+    }
+    
+    // Elements
+    const phoneInput = document.getElementById('phone_number');
+    const sendCodeBtn = document.querySelector('.send-code-btn');
+    const captchaModal = document.getElementById('captcha-modal');
+    const refreshCaptchaBtn = document.getElementById('refresh-captcha');
+    const closeCaptchaBtn = document.getElementById('close-captcha');
+    const captchaPrompt = document.getElementById('captcha-prompt');
+    const visualCaptchaImage = document.getElementById('visual-captcha-image');
+    const captchaMessage = document.getElementById('captcha-message');
+    const phoneValidationMessage = document.getElementById('phone-validation-message');
+    
+    let captchaToken = '';
+    let selectedIndex = -1;
+    let userInteracted = false; // Track if user has interacted with the input
+    
+    // Phone number validation function
+    window.validatePhoneNumber = function() {
+        const phoneNumber = phoneInput.value.trim();
+        const phoneRegex = /^\+?[0-9]{6,15}$/; // Basic validation for international phone numbers
+        
+        if (!phoneNumber) {
+            // Only show error message if user has interacted with the field
+            phoneValidationMessage.textContent = userInteracted ? 'Phone number is required' : '';
+            sendCodeBtn.disabled = true;
+            return false;
+        } else if (!phoneRegex.test(phoneNumber.replace(/\s/g, ''))) {
+            // Only show error message if user has interacted with the field
+            phoneValidationMessage.textContent = userInteracted ? 'Please enter a valid phone number' : '';
+            sendCodeBtn.disabled = true;
+            return false;
+        } else {
+            phoneValidationMessage.textContent = '';
+            sendCodeBtn.disabled = false;
+            return true;
+        }
+    };
+    
+    // Check if there's an error with verification code and enable the button if phone number is valid
+    if (phoneInput) {
+        // Add the input listener - marks that user has interacted with the field
+        phoneInput.addEventListener('input', function() {
+            userInteracted = true; // Mark that user has interacted with the field
+            validatePhoneNumber();
+        });
+        
+        // Run initial validation on page load without showing error messages
+        // This will only enable the button if the phone number is valid
+        if (phoneInput.value.trim() !== '+86 ' && phoneInput.value.trim() !== '') {
+            validatePhoneNumber();
+        } else {
+            // Make sure button is disabled initially for empty/default values
+            sendCodeBtn.disabled = true;
+        }
+    }
+    
+    // Close CAPTCHA modal
+    if (closeCaptchaBtn) {
+        closeCaptchaBtn.addEventListener('click', function() {
+            captchaModal.style.display = 'none';
+        });
+    }
+    
+    // Close modal when clicking outside of it
+    window.addEventListener('click', function(event) {
+        if (event.target === captchaModal) {
+            captchaModal.style.display = 'none';
+        }
+    });
+    
+    // Function to load visual CAPTCHA
+    function loadVisualCaptcha() {
+        visualCaptchaImage.innerHTML = '<div class="loading">Loading...</div>';
+        captchaMessage.textContent = '';
+        
+        fetch('/accounts/generate-visual-captcha/', {
+            method: 'GET',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                captchaToken = data.token;
+                captchaPrompt.textContent = data.prompt;
+                
+                // Clear previous content
+                visualCaptchaImage.innerHTML = '';
+                
+                // Create a visual representation of the objects
+                const objects = data.objects;
+                
+                objects.forEach((obj, index) => {
+                    const objectDiv = document.createElement('div');
+                    objectDiv.className = 'captcha-object';
+                    objectDiv.dataset.index = index;
+                    
+                    // Position randomly within the container
+                    const left = 30 + Math.random() * (visualCaptchaImage.clientWidth - 60);
+                    const top = 30 + Math.random() * (visualCaptchaImage.clientHeight - 60);
+                    
+                    objectDiv.style.left = `${left}px`;
+                    objectDiv.style.top = `${top}px`;
+                    
+                    // Style based on shape and color
+                    objectDiv.style.width = '40px';
+                    objectDiv.style.height = '40px';
+                    objectDiv.style.backgroundColor = obj.color;
+                    
+                    if (obj.shape === 'sphere') {
+                        objectDiv.style.borderRadius = '50%';
+                    } else if (obj.shape === 'pyramid') {
+                        objectDiv.style.width = '0';
+                        objectDiv.style.height = '0';
+                        objectDiv.style.borderLeft = '20px solid transparent';
+                        objectDiv.style.borderRight = '20px solid transparent';
+                        objectDiv.style.borderBottom = '40px solid ' + obj.color;
+                        objectDiv.style.backgroundColor = 'transparent';
+                    } else if (obj.shape === 'cube') {
+                        objectDiv.style.borderRadius = '2px';
+                    } else if (obj.shape === 'cone') {
+                        objectDiv.style.width = '0';
+                        objectDiv.style.height = '0';
+                        objectDiv.style.borderLeft = '20px solid transparent';
+                        objectDiv.style.borderRight = '20px solid transparent';
+                        objectDiv.style.borderBottom = '40px solid ' + obj.color;
+                        objectDiv.style.borderRadius = '50%';
+                        objectDiv.style.backgroundColor = 'transparent';
+                    } else if (obj.shape === 'cylinder') {
+                        objectDiv.style.borderRadius = '20px';
+                    }
+                    
+                    // Add click handler
+                    objectDiv.addEventListener('click', function() {
+                        selectedIndex = parseInt(this.dataset.index);
+                        
+                        // Highlight the selected object
+                        document.querySelectorAll('.captcha-object').forEach(el => {
+                            el.style.boxShadow = 'none';
+                        });
+                        this.style.boxShadow = '0 0 0 3px #4285f4';
+                        
+                        // Verify the selection
+                        verifySelection();
+                    });
+                    
+                    visualCaptchaImage.appendChild(objectDiv);
+                });
+            } else {
+                captchaMessage.textContent = 'Failed to load CAPTCHA';
+                captchaMessage.style.color = 'red';
+            }
+        })
+        .catch(error => {
+            console.error('Error loading visual CAPTCHA:', error);
+            captchaMessage.textContent = 'Failed to load CAPTCHA';
+            captchaMessage.style.color = 'red';
+        });
+    }
+    
+    // Function to verify the selected object
+    function verifySelection() {
+        if (selectedIndex === -1) {
+            captchaMessage.textContent = 'Please select an object';
+            captchaMessage.style.color = 'red';
+            return;
+        }
+        
+        const phoneNumber = phoneInput.value.trim();
+        
+        fetch('/accounts/verify-visual-captcha/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: `phone_number=${encodeURIComponent(phoneNumber)}&selected_index=${selectedIndex}&token=${encodeURIComponent(captchaToken)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // CAPTCHA verified, close the modal
+                captchaModal.style.display = 'none';
+                
+                // Update send code button
+                sendCodeBtn.disabled = true;
+                sendCodeBtn.textContent = 'Code sent (60s)';
+                
+                // Start countdown
+                let countdown = 60;
+                const timer = setInterval(() => {
+                    countdown--;
+                    sendCodeBtn.textContent = `Code sent (${countdown}s)`;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(timer);
+                        sendCodeBtn.textContent = 'Send code';
+                        sendCodeBtn.disabled = false;
+                    }
+                }, 1000);
+            } else {
+                    if (data.message == 'Failed to send verification code. Please try again later.') {
+                        captchaModal.style.display = 'none';
+                        phoneValidationMessage.textContent = 'Please enter a valid phone number';
+
+                    } else {
+
+                        // Failed CAPTCHA verification
+                        captchaMessage.textContent = data.message || 'Incorrect selection, please try again';
+                        captchaMessage.style.color = 'red';
+                        
+                        // Reset selection
+                        selectedIndex = -1;
+                        document.querySelectorAll('.captcha-object').forEach(el => {
+                            el.style.boxShadow = 'none';
+                        });
+                        
+                        // Load a new CAPTCHA after a short delay
+                        setTimeout(loadVisualCaptcha, 1500);
+                    }                   
+                
+            }
+        })
+        .catch(error => {
+            console.error('Error verifying selection:', error);
+            captchaMessage.textContent = 'Failed to verify selection';
+            captchaMessage.style.color = 'red';
+        });
+    }
+    
+    // Refresh CAPTCHA button
+    if (refreshCaptchaBtn) {
+        refreshCaptchaBtn.addEventListener('click', loadVisualCaptcha);
+    }
+    
+    // Handler for send code button
+    if (sendCodeBtn) {
+        sendCodeBtn.addEventListener('click', function() {
+            // Re-validate phone number
+            if (validatePhoneNumber()) {
+                // Show CAPTCHA modal
+                captchaModal.style.display = 'flex';
+                loadVisualCaptcha();
+            }
+        });
+    }
+
+    // Function to initiate WeChat login
+    window.loginWithWeChat = function() {
+        const appId = 'YOUR_WECHAT_APP_ID'; // Replace with your WeChat AppID
+        const redirectUri = encodeURIComponent('YOUR_REDIRECT_URI'); // Replace with your redirect URI
+        const weChatAuthUrl = `https://open.weixin.qq.com/connect/qrconnect?appid=${appId}&redirect_uri=${redirectUri}&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect`;
+
+        window.location.href = weChatAuthUrl;
+    };
+});
+</script>
 {% endblock content %}
